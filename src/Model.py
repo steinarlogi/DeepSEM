@@ -123,7 +123,7 @@ class InferenceNet(nn.Module):
 
     def qzxy(self, x, y):
         concat = torch.cat((x, y.unsqueeze(1).repeat(1, x.shape[1], 1)), dim=2)
-        for layer in self.inference_qzyx:
+        for i, layer in enumerate(self.inference_qzyx):
             concat = layer(concat)
         return concat
 
@@ -196,7 +196,7 @@ class VAE_EAD(nn.Module):
 
     def forward(self, x, dropout_mask, temperature=1.0, opt=None, ):
         x_ori = x
-        x = x.view(x.size(0), -1, 1)
+        x = x.view(x.size(0), -1, 1) # Same as torch.unsqueeze(2)
         mask = Variable(torch.from_numpy(np.ones(self.n_gene) - np.eye(self.n_gene)).float(), requires_grad=False).cuda()
         adj_A_t = self._one_minus_A_t(self.adj_A * mask)
         adj_A_t_inv = torch.inverse(adj_A_t)
@@ -213,3 +213,4 @@ class VAE_EAD(nn.Module):
         loss_cat = (-self.losses.entropy(output['logits'], output['prob_cat']) - np.log(0.1)) * opt.beta
         loss = loss_rec + loss_gauss + loss_cat
         return loss, loss_rec, loss_gauss, loss_cat, dec, y, output['mean']
+    

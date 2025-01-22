@@ -1,6 +1,7 @@
 import argparse
 
 from src.DeepSEM_cell_type_non_specific_GRN_model import non_celltype_GRN_model
+from src.DeepSEM_cell_type_non_specific_GRN_benchmark import non_celltype_GRN_model as GRNbenchmark_model
 from src.DeepSEM_cell_type_specific_GRN_model import celltype_GRN_model
 from src.DeepSEM_cell_type_test_non_specific_GRN_model import test_non_celltype_GRN_model
 from src.DeepSEM_cell_type_test_specific_GRN_model import celltype_GRN_model as test_celltype_GRN_model
@@ -50,6 +51,19 @@ if opt.task == 'non_celltype_GRN':
         opt.lr_step_size = 0.99
         opt.batch_size = 64
         model = test_non_celltype_GRN_model(opt)
+    model.train_model()
+elif opt.task == 'non_celltype_GRN_benchmark':
+    if opt.setting == 'default':
+        opt.beta = 1
+        opt.alpha = 100
+        opt.K1 = 1
+        opt.K2 = 2
+        opt.n_hidden = 128
+        opt.gamma = 0.95
+        opt.lr = 1e-4
+        opt.lr_step_size = 0.99
+        opt.batch_size = 64
+    model = GRNbenchmark_model(opt)
     model.train_model()
 elif opt.task == 'celltype_GRN':
     if opt.setting == 'default':
