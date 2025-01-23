@@ -91,5 +91,7 @@ class non_celltype_GRN_model:
                 print('epoch:', epoch, 'loss:',
                       np.mean(loss_all), 'mse_loss:', np.mean(mse_rec), 'kl_loss:', np.mean(loss_kl), 'sparse_loss:',
                       np.mean(loss_sparse))
+                
+
         extractEdgesFromMatrix(vae.adj_A.cpu().detach().numpy(), gene_name, None).to_csv(
-            opt.save_name + '/GRN_inference_result.tsv', sep='\t', index=False)
+            opt.save_name + f'/{str(os.path.splitext(str(os.path.split(opt.data_file)[1]))[0]).removesuffix("_GeneExpression")}_grn.tsv', sep='\t', index=False)

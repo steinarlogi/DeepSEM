@@ -35,7 +35,6 @@ with open(grn_file) as f:
         sign = str(int(np.sign(float(weight))))
 
         new_line = [str(i), regulator, target, weight, sign]
-        print (new_line)
 
         new_data.append(new_line)
 
