@@ -63,6 +63,18 @@ elif opt.task == 'non_celltype_GRN_benchmark':
         opt.lr = 1e-4
         opt.lr_step_size = 0.99
         opt.batch_size = 64
+    elif opt.setting == 'best_params':
+        opt.batch_size = 32 
+        opt.n_hidden = 128
+        opt.K = 1
+        opt.lr = 0.0008004795937453726
+        opt.lr_step_size = 0.99
+        opt.gamma = 0.94
+        opt.n_epochs = 90
+        opt.K1 = 1
+        opt.K2 = 2
+        opt.alpha = 99 
+        opt.beta = 1
     model = GRNbenchmark_model(opt)
     model.train_model()
 elif opt.task == 'celltype_GRN':

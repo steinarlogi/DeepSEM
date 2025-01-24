@@ -9,7 +9,7 @@ for file in ./$1/*; do
     if [ -f "$file" ] && [[ "$file" == *GeneExpression.csv ]]; then
         filename=$(basename $file)
         network_out_name="${filename%GeneExpression.csv}grn.tsv"
-        python3 main.py --task non_celltype_GRN_benchmark --data_file "$file" --setting new --alpha 100 --beta 1 --n_epoch 90 --save_name grn_benchmark_out
+        python3 main.py --task non_celltype_GRN_benchmark --data_file "$file" --setting best_params --alpha 100 --beta 1 --n_epoch 90 --save_name grn_benchmark_out
         if [ ! -f "./grn_benchmark_out/$network_out_name" ]; then
             echo ".grn_benchmark_out/$network_out_name"
             echo "Network out name does not exists"
