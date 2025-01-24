@@ -24,7 +24,7 @@ with open(grn, mode='r') as f:
     lines = f.readlines()
 
     for i in range(1, len(lines)):
-        line = lines[i].split(',')[1:]
+        line = lines[i].split(',')
         regulator, target, weight, sign = line
         regulator_idx = gene_name_to_idx[regulator]
         target_idx = gene_name_to_idx[target]
@@ -34,12 +34,6 @@ with open(grn, mode='r') as f:
 A = pd.DataFrame(adj_matrix)
 A.columns = gene_names
 A.index = gene_names
-
-print (true_grn.shape)
-print (A.shape)
-
-print (true_grn)
-print (A)
 
 stats = gs.benchmarking.benchmark(
 	estimated_network = A,

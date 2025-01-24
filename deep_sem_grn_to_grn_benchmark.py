@@ -6,6 +6,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--from_file', type=str, help='deep sem grn file', required=True)
 parser.add_argument('--save_dir', type=str, help='The output directory', required=True)
+parser.add_argument('--file_name', type=str, help='The name of the file in which to save the output(optional)')
 
 args = parser.parse_args()
 
@@ -15,6 +16,10 @@ _, filename = os.path.split(grn_file)
 filename, _ = os.path.splitext(filename)
 filename = filename + '.csv'
 
+if args.file_name is not None:
+    filename = args.file_name.removesuffix('.csv')
+    filename = filename + '.csv'
+
 try:
     os.mkdir(save_dir)
 except:
@@ -22,7 +27,7 @@ except:
 
 new_data = []
 # Add headers
-new_data.append(['', 'regulator', 'target', 'weight', 'sign'])
+new_data.append(['Regulator', 'Target', 'Weight', 'Sign'])
 
 with open(grn_file) as f:
     lines = f.readlines()
@@ -34,7 +39,7 @@ with open(grn_file) as f:
         weight = line[2].strip(' \n')
         sign = str(int(np.sign(float(weight))))
 
-        new_line = [str(i), regulator, target, weight, sign]
+        new_line = [regulator, target, weight, sign]
 
         new_data.append(new_line)
 
