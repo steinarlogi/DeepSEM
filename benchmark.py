@@ -2,6 +2,7 @@ import argparse
 import numpy as np
 import pandas as pd
 import genesnake as gs
+from datetime import datetime
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--inferred_grn', required=True, help='The file that contains the inferred')
@@ -35,9 +36,11 @@ A = pd.DataFrame(adj_matrix)
 A.columns = gene_names
 A.index = gene_names
 
+output_dir = f'benchmark_output_{datetime.now().strftime("%Y-%m-%d %H-%M-%S")}'
+
 stats = gs.benchmarking.benchmark(
 	estimated_network = A,
 	true_network = true_grn,
-	output_dir = 'simulated_data',
+	output_dir = output_dir,
 	model_name = 'DeepSEM',
 	)

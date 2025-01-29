@@ -44,6 +44,10 @@ class LossFunctions:
     def entropy(self, logits, targets):
         log_q = F.log_softmax(logits, dim=-1)
         return -torch.mean(torch.sum(targets * log_q, dim=-1))
+    
+    def perturb_loss(self, P, A, Y):
+        loss = 0.5 + torch.norm(P - torch.matmul(Y.squeeze(2), A))
+        return loss.mean()
 
 
 class GumbelSoftmax(nn.Module):
@@ -194,7 +198,7 @@ class VAE_EAD(nn.Module):
         adj_normalized = Tensor(np.eye(adj.shape[0])) - (adj.transpose(0, 1))
         return adj_normalized
 
-    def forward(self, x, dropout_mask, temperature=1.0, opt=None, ):
+    def forward(self, x, p, dropout_mask, temperature=1.0, opt=None, ):
         x_ori = x
         x = x.view(x.size(0), -1, 1) # Same as torch.unsqueeze(2)
         mask = Variable(torch.from_numpy(np.ones(self.n_gene) - np.eye(self.n_gene)).float(), requires_grad=False).cuda()
@@ -211,6 +215,7 @@ class VAE_EAD(nn.Module):
         loss_rec = self.losses.reconstruction_loss(x_ori, output['x_rec'], dropout_mask, 'mse')
         loss_gauss = self.losses.gaussian_loss(z, output['mean'], output['var'], output['y_mean'], output['y_var']) * opt.beta
         loss_cat = (-self.losses.entropy(output['logits'], output['prob_cat']) - np.log(0.1)) * opt.beta
-        loss = loss_rec + loss_gauss + loss_cat
-        return loss, loss_rec, loss_gauss, loss_cat, dec, y, output['mean']
+        loss_perturb = self.losses.perturb_loss(p, self.adj_A, x) * opt.eta
+        loss = loss_rec + loss_gauss + loss_cat + loss_perturb
+        return loss, loss_rec, loss_gauss, loss_cat, loss_perturb, dec, y, output['mean']
     
