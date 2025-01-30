@@ -89,7 +89,7 @@ def load_data(config):
     dataset = TensorDataset(torch.tensor(data), torch.tensor(perturb_data))
     dataloader = DataLoader(dataset, batch_size=config.batch_size, shuffle=True, num_workers=1)
 
-    return dataloader, gene_labels, num_genes
+    return dataloader, gene_labels, num_genes, data, perturb_data
 
 
 def load_true_grn():
@@ -104,6 +104,12 @@ def initialize_A(num_genes):
         A[i, i] = 0
     return A
 
+def initialize_A_with_perturb(P, Y):
+    A = torch.matmul(torch.linalg.inv(Y).T, P)
+    for i in range(len(A)):
+        A[i, i] = 0
+    return A 
+
 
 class dotdict(dict):
     """dot.notation access to dictionary attributes"""
@@ -113,10 +119,10 @@ class dotdict(dict):
 
 def infer_grn(config):
     config = dotdict(config)
-    dataloader, gene_name, num_genes = load_data(config)
+    dataloader, gene_name, num_genes, data, perturb_data = load_data(config)
     true_grn = load_true_grn()
 
-    adj_A_init = initialize_A(num_genes)
+    adj_A_init = initialize_A_with_perturb(perturb_data, data)
     vae = VAE_EAD(adj_A_init, 1, config.n_hidden, config.K).float().cuda()
     optimizer = optim.RMSprop(vae.parameters(), lr=config.lr)
     optimizer2 = optim.RMSprop([vae.adj_A], lr=config.lr * 0.2)

@@ -43,3 +43,22 @@ alpha = 105
 beta = 7.0044173075322185
 
 https://grnbenchmark.org/method/7ccc7059-9b31-4b98-bef9-3146f4fc0bdc/1
+
+best params fyrir p based model
+batch_size = 64
+n_hidden = 256
+K = 1
+lr = 0.0031554350481570285
+lr_step_size = 0.99
+gamma = 0.94
+n_epochs = 90
+K1 = 1
+K2 = 2
+alpha = 105
+beta = 9.077126789120802
+eta = 3.7336388159118625
+
+Seinna fann ég þetta frekar:
+'beta': 5.073767857416556, 'eta': 6.29859783415813
+
+https://grnbenchmark.org/method/4044da13-ec4d-47b7-9739-204b19ce7061/1
