@@ -96,15 +96,15 @@ elif opt.task == 'perturb':
         opt.batch_size = 64
         opt.n_hidden = 256
         opt.K = 1
-        opt.lr = 0.0031554350481570285
+        opt.lr = 7.052105326745063e-05
         opt.lr_step_size = 0.99
         opt.gamma = 0.94
         opt.n_epochs = 90
         opt.K1 = 1
         opt.K2 = 2
         opt.alpha = 105
-        opt.beta = 5.639168709078974
-        opt.eta = 1.8037844128214675
+        opt.beta = 2.4936337477395507
+        opt.eta =  0.17873955166585076
 
     model = perturb_model(opt)
     model.train_model()

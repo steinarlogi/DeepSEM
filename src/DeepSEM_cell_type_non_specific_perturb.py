@@ -30,11 +30,11 @@ class non_celltype_GRN_model_perturb:
             A[i, i] = 0
         return A
     
-    def initialize_A_from_perturbations(self, expressions, perturbations):
-        A = perturbations @ np.linalg.pinv(expressions)
+    def initialize_A_with_perturb(self, P, Y):
+        A = np.matmul(np.linalg.pinv(Y), P)
         for i in range(len(A)):
             A[i, i] = 0
-        return A
+        return A 
     
 
     def init_data(self):    
@@ -67,13 +67,13 @@ class non_celltype_GRN_model_perturb:
         dataset = TensorDataset(torch.tensor(data), torch.tensor(perturb_data))
         dataloader = DataLoader(dataset, batch_size=self.opt.batch_size, shuffle=True, num_workers=1)
 
-        return dataloader, gene_labels, num_genes
+        return dataloader, gene_labels, num_genes, data, perturb_data
 
     def train_model(self):
         opt = self.opt
-        dataloader, gene_name, num_genes = self.init_data()
+        dataloader, gene_name, num_genes, data, perturb_data = self.init_data()
 
-        adj_A_init = self.initalize_A(num_genes)
+        adj_A_init = self.initialize_A_with_perturb(perturb_data, data)
         vae = VAE_EAD(adj_A_init, 1, opt.n_hidden, opt.K).float().cuda()
         optimizer = optim.RMSprop(vae.parameters(), lr=opt.lr)
         optimizer2 = optim.RMSprop([vae.adj_A], lr=opt.lr * 0.2)

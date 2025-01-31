@@ -105,7 +105,7 @@ def initialize_A(num_genes):
     return A
 
 def initialize_A_with_perturb(P, Y):
-    A = torch.matmul(torch.linalg.inv(Y).T, P)
+    A = np.matmul(np.linalg.pinv(Y), P)
     for i in range(len(A)):
         A[i, i] = 0
     return A 
@@ -195,7 +195,7 @@ def main():
         'batch_size': 64,
         'n_hidden': 256,
         'K': 1,
-        'lr': .0031554350481570285,
+        'lr': tune.loguniform(1e-5, 1e-2),
         'lr_step_size': 0.99,
         'gamma': 0.94,
         'n_epochs': 90,

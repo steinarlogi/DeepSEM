@@ -62,3 +62,17 @@ Seinna fann ég þetta frekar:
 'beta': 5.073767857416556, 'eta': 6.29859783415813
 
 https://grnbenchmark.org/method/4044da13-ec4d-47b7-9739-204b19ce7061/1
+
+Best params fyrir p based model þar sem A er initializeað með jöfnunni A = PY^⁻1
+batch_size = 64
+n_hidden = 256
+K = 1
+lr = 7.052105326745063e-05
+lr_step_size = 0.99
+gamma = 0.94
+n_epochs = 90
+K1 = 1
+K2 = 2
+alpha = 105
+beta = 2.4936337477395507
+eta =  0.17873955166585076
