@@ -192,16 +192,16 @@ def infer_grn(config):
 
 def main():
     config = dict({
-        'batch_size': 64,
-        'n_hidden': 256,
+        'batch_size': tune.choice([32, 64, 128]),
+        'n_hidden': tune.choice([64, 128, 256]),
         'K': 1,
         'lr': tune.loguniform(1e-5, 1e-2),
-        'lr_step_size': 0.99,
-        'gamma': 0.94,
-        'n_epochs': 90,
+        'lr_step_size': np.random.random()*20,
+        'gamma': np.random.random(),
+        'n_epochs': 200,
         'K1': 1,
         'K2': 2,
-        'alpha': 105,
+        'alpha': tune.sample_from(lambda _: np.random.random()*100 + 0.1),
         'beta': tune.sample_from(lambda _: np.random.random() * 10 + 0.1),
         'eta': tune.sample_from(lambda _: np.random.random() * 10)
         #'batch_size': tune.choice([32, 64, 128]),
@@ -217,18 +217,11 @@ def main():
         #'beta': 1
         })
 
-    scheduler = ASHAScheduler(
-        max_t = 90,
-        grace_period=5,
-        reduction_factor=2
-    )
-
     tuner = tune.Tuner(
-        tune.with_resources(infer_grn, {'gpu': 1, 'cpu': 2}),
+        tune.with_resources(infer_grn, resources={'cpu': 8, 'gpu': 1}),
         tune_config=tune.TuneConfig(
             metric='aupr',
             mode='max',
-            scheduler=scheduler,
             num_samples=100
         ),
         param_space=config,

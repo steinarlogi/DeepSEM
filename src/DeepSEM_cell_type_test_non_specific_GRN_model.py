@@ -81,6 +81,7 @@ class test_non_celltype_GRN_model:
                 else:
                     optimizer2.step()
             scheduler.step()
+            print(scheduler.get_last_lr())
             if epoch % (opt.K1+opt.K2) >= opt.K1:
                 print('epoch:', epoch,  'loss:',
                       np.mean(loss_all), 'mse_loss:', np.mean(mse_rec), 'kl_loss:', np.mean(loss_kl), 'sparse_loss:',

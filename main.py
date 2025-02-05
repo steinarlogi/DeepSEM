@@ -3,6 +3,7 @@ import argparse
 from src.DeepSEM_cell_type_non_specific_GRN_model import non_celltype_GRN_model
 from src.DeepSEM_cell_type_non_specific_GRN_benchmark import non_celltype_GRN_model as GRNbenchmark_model
 from src.DeepSEM_cell_type_non_specific_perturb import non_celltype_GRN_model_perturb as perturb_model
+from src.test_loss import non_celltype_GRN_model_perturb as perturb_test_loss
 from src.DeepSEM_cell_type_specific_GRN_model import celltype_GRN_model
 from src.DeepSEM_cell_type_test_non_specific_GRN_model import test_non_celltype_GRN_model
 from src.DeepSEM_cell_type_test_specific_GRN_model import celltype_GRN_model as test_celltype_GRN_model
@@ -45,7 +46,7 @@ if opt.task == 'non_celltype_GRN':
     model = non_celltype_GRN_model(opt)
     if opt.setting == 'test':
         opt.beta = 1
-        opt.alpha = 100
+        opt.alpha = 10000
         opt.K1 = 1
         opt.K2 = 2
         opt.n_hidden = 128
@@ -96,6 +97,33 @@ elif opt.task == 'perturb':
         opt.batch_size = 64
         opt.n_hidden = 256
         opt.K = 1
+        opt.lr = 0.0027118482693727713
+        opt.lr_step_size = 19.203074629279588
+        opt.gamma = 0.3651905364542303
+        opt.n_epochs = 200
+        opt.K1 = 1
+        opt.K2 = 2
+        opt.alpha = 68.39578763533913
+        opt.beta = 3.644168762017821
+        opt.eta = 0.6904798464567674
+
+    model = perturb_model(opt)
+    model.train_model()
+elif opt.task == 'test_loss':
+    if opt.setting == 'default':
+        opt.beta = 1
+        opt.alpha = 100
+        opt.K1 = 1
+        opt.K2 = 2
+        opt.n_hidden = 128
+        opt.gamma = 0.95
+        opt.lr = 1e-4
+        opt.lr_step_size = 0.99
+        opt.batch_size = 64
+    elif opt.setting == 'best_params':
+        opt.batch_size = 64
+        opt.n_hidden = 256
+        opt.K = 1
         opt.lr = 7.052105326745063e-05
         opt.lr_step_size = 0.99
         opt.gamma = 0.94
@@ -106,7 +134,7 @@ elif opt.task == 'perturb':
         opt.beta = 2.4936337477395507
         opt.eta =  0.17873955166585076
 
-    model = perturb_model(opt)
+    model = perturb_test_loss(opt)
     model.train_model()
 elif opt.task == 'celltype_GRN':
     if opt.setting == 'default':

@@ -82,10 +82,11 @@ class non_celltype_GRN_model_perturb:
         vae.train()
         for epoch in range(opt.n_epochs + 1):
             loss_all, mse_rec, loss_kl, data_ids, loss_tfs, loss_sparse, losses_perturb = [], [], [], [], [], [], []
-            if epoch % (opt.K1 + opt.K2) < opt.K1:
-                vae.adj_A.requires_grad = False
-            else:
-                vae.adj_A.requires_grad = True
+            #if epoch % (opt.K1 + opt.K2) < opt.K1:
+            #    vae.adj_A.requires_grad = False
+            #else:
+            #    vae.adj_A.requires_grad = True
+            #vae.adj_A.requires_grad = True
             for i, data_batch in enumerate(dataloader, 0):
                 data_batch, data_perturb = data_batch
                 optimizer.zero_grad()
@@ -97,8 +98,9 @@ class non_celltype_GRN_model_perturb:
                 loss, loss_rec, loss_gauss, loss_cat, loss_perturb, dec, y, hidden = vae(inputs, data_perturb, dropout_mask=None,
                                                                            temperature=temperature, opt=opt)
                 sparse_loss = opt.alpha * torch.mean(torch.abs(vae.adj_A))
-                loss = loss + sparse_loss
+                #loss = opt.eta * loss_perturb + opt.alpha * torch.mean(torch.abs(vae.adj_A))
                 #loss = loss_perturb * 0.001 # TODO: REMOVE THIS
+                loss = loss + sparse_loss
                 loss.backward()
                 #for name, param in vae.named_parameters():
                 #    if param.grad is not None:
@@ -108,10 +110,11 @@ class non_celltype_GRN_model_perturb:
                 loss_kl.append(loss_gauss.item() + loss_cat.item())
                 losses_perturb.append(loss_perturb.item())
                 loss_sparse.append(sparse_loss.item())
-                if epoch % (opt.K1 + opt.K2) < opt.K1:
-                    optimizer.step()
-                else:
-                    optimizer2.step()
+                optimizer.step()
+                #if epoch % (opt.K1 + opt.K2) < opt.K1:
+                #    optimizer.step()
+                #else:
+                #    optimizer2.step()
             scheduler.step()
             if epoch % (opt.K1 + opt.K2) >= opt.K1:
                 print('epoch:', epoch, 'loss:',

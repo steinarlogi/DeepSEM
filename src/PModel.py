@@ -216,6 +216,6 @@ class VAE_EAD(nn.Module):
         loss_gauss = self.losses.gaussian_loss(z, output['mean'], output['var'], output['y_mean'], output['y_var']) * opt.beta
         loss_cat = (-self.losses.entropy(output['logits'], output['prob_cat']) - np.log(0.1)) * opt.beta
         loss_perturb = self.losses.perturb_loss(p, self.adj_A, x) * opt.eta
-        loss = loss_rec + loss_gauss + loss_cat + loss_perturb
+        loss = loss_rec + loss_gauss + loss_perturb #+ loss_cat
         return loss, loss_rec, loss_gauss, loss_cat, loss_perturb, dec, y, output['mean']
     
