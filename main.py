@@ -78,21 +78,23 @@ elif opt.task == 'non_celltype_GRN_benchmark':
         opt.K1 = 1
         opt.K2 = 2
         opt.alpha = 105
-        opt.beta = 7.0044173075322185
+        opt.beta = 1
+        
         print (f'Params: {opt}')
     model = GRNbenchmark_model(opt)
     model.train_model()
 elif opt.task == 'perturb':
     if opt.setting == 'default':
         opt.beta = 1
-        opt.alpha = 100
+        opt.alpha = 1
         opt.K1 = 1
         opt.K2 = 2
         opt.n_hidden = 128
         opt.gamma = 0.95
-        opt.lr = 1e-4
+        opt.lr = 0.001
         opt.lr_step_size = 0.99
         opt.batch_size = 64
+        opt.eta = 1
     elif opt.setting == 'best_params':
         opt.batch_size = 64
         opt.n_hidden = 256
@@ -106,6 +108,7 @@ elif opt.task == 'perturb':
         opt.alpha = 68.39578763533913
         opt.beta = 3.644168762017821
         opt.eta = 0.6904798464567674
+        print (opt)
 
     model = perturb_model(opt)
     model.train_model()

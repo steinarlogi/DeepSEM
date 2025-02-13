@@ -105,7 +105,7 @@ def initialize_A(num_genes):
     return A
 
 def initialize_A_with_perturb(P, Y):
-    A = np.matmul(np.linalg.pinv(Y), P)
+    A = np.matmul(P.T, np.linalg.pinv(Y.T))
     for i in range(len(A)):
         A[i, i] = 0
     return A 

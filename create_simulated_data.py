@@ -18,7 +18,7 @@ except:
     print ('Output already exists')
 
 ### Simulation
-genes = 50 # number of genes
+genes = 100 # number of genes
 spars = 4 # sparsity
 
 network = gs.grn.make_DAG(genes, spars, self_loops=True)
