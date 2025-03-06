@@ -91,3 +91,18 @@ K2 = 2
 alpha = 68.39578763533913
 beta = 3.644168762017821
 eta = 0.6904798464567674
+
+
+Best params sem ég fékk þegar ég breytti transposition á initialization á A: final aupr: 0.615154
+batch_size = 32
+n_hidden = 256
+K = 1
+lr = 0.0006714789263699747
+lr_step_size = 4.236225080966285
+gamma = 0.9951892222031806
+n_epochs = 200
+K1 = 1
+K2 = 2
+alpha = 92.47877401136095 
+beta = 0.26492246281184506
+eta =1.20271130496875

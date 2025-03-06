@@ -96,18 +96,19 @@ elif opt.task == 'perturb':
         opt.batch_size = 64
         opt.eta = 1
     elif opt.setting == 'best_params':
-        opt.batch_size = 64
+        opt.batch_size = 32
         opt.n_hidden = 256
         opt.K = 1
-        opt.lr = 0.0027118482693727713
-        opt.lr_step_size = 19.203074629279588
-        opt.gamma = 0.3651905364542303
+        opt.lr = 0.0006714789263699747
+        opt.lr_step_size = 4.236225080966285
+        opt.gamma = 0.9951892222031806
         opt.n_epochs = 200
         opt.K1 = 1
         opt.K2 = 2
-        opt.alpha = 68.39578763533913
-        opt.beta = 3.644168762017821
-        opt.eta = 0.6904798464567674
+        opt.alpha = 92.47877401136095 
+        opt.beta = 0.26492246281184506
+        opt.eta = 1.20271130496875
+        
         print (opt)
 
     model = perturb_model(opt)
