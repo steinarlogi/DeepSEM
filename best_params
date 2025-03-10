@@ -15,7 +15,7 @@ K2 = 2
 alpha = 102
 beta = 1
 
-Best params þegar ég notaði aupr sem metric
+Best params þegar ég notaði aupr sem metric, lr og hidden_nodes
 
 batch_size = 64
 n_hidden = 256
@@ -29,7 +29,7 @@ K2 = 2
 alpha = 105
 beta = 1
 
-Eftir að ég tjúnaði bara beta parameterinn fékk ég að þessir parametrar gáfu bestu niðurstöðurnar:
+Eftir að ég tjúnaði bara beta parameterinn og hidden nodes fékk ég að þessir parametrar gáfu bestu niðurstöðurnar:
 batch_size = 64
 n_hidden = 256
 K = 1
@@ -103,6 +103,6 @@ gamma = 0.9951892222031806
 n_epochs = 200
 K1 = 1
 K2 = 2
-alpha = 92.47877401136095 
+alpha = 92.47877401136095
 beta = 0.26492246281184506
 eta =1.20271130496875

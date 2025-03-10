@@ -29,21 +29,21 @@ class non_celltype_GRN_model_perturb:
         for i in range(len(A)):
             A[i, i] = 0
         return A
-    
+
     def initialize_A_with_perturb(self, P, Y):
         A = np.matmul(P.T, np.linalg.pinv(Y.T))
         for i in range(len(A)):
             A[i, i] = 0
-        return A 
-    
+        return A
 
-    def init_data(self):    
+
+    def init_data(self):
         # Read the expression data from csv file
-        gene_labels = [] 
+        gene_labels = []
         data = []
         with open(self.opt.data_file) as f:
             lines = f.readlines()
-            
+
             for i in range(1, len(lines)):
                 line = lines[i].split(',')
 
@@ -117,8 +117,8 @@ class non_celltype_GRN_model_perturb:
                 print('epoch:', epoch, 'loss:',
                       np.mean(loss_all), 'mse_loss:', np.mean(mse_rec), 'kl_loss:', np.mean(loss_kl), 'sparse_loss:',
                       np.mean(loss_sparse), 'perturb_loss:', np.mean(losses_perturb))
-                
-        
+
+
         # Set the diagonal of the adjacency matrix to zero
         adj_A = vae.adj_A.cpu().detach().numpy()
         for i in range(adj_A.shape[0]):
