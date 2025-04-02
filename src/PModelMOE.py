@@ -148,7 +148,7 @@ class InferenceNet(nn.Module):
     def forward(self, x, p, adj, temperature=1.0):
         logits, prob, y = self.qyx(x.squeeze(2), temperature)
         mu, logvar = self.qzxy(x, y)
-        mu_p, logvar_p = self.qzxy(x, y)
+        mu_p, logvar_p = self.qzxy_p(x, y)
 
         perturb_mask = (p != 0)
 
