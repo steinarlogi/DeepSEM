@@ -73,7 +73,8 @@ class non_celltype_GRN_model_perturb:
         opt = self.opt
         dataloader, gene_name, num_genes, data, perturb_data = self.init_data()
 
-        adj_A_init = self.initialize_A_with_perturb(perturb_data, data)
+        #adj_A_init = self.initialize_A_with_perturb(perturb_data, data)
+        adj_A_init = self.initalize_A(num_genes)
         vae = VAE_EAD(adj_A_init, 1, opt.n_hidden, opt.K).float().cuda()
         optimizer = optim.RMSprop(vae.parameters(), lr=opt.lr)
         optimizer2 = optim.RMSprop([vae.adj_A], lr=opt.lr * 0.2)
@@ -125,3 +126,4 @@ class non_celltype_GRN_model_perturb:
             adj_A[i, i] = 0
         extractEdgesFromMatrix(adj_A, gene_name, None).to_csv(
             opt.save_name + f'/{str(os.path.splitext(str(os.path.split(opt.data_file)[1]))[0]).removesuffix("_GeneExpression")}_grn.tsv', sep='\t', index=False)
+

@@ -4,6 +4,7 @@ from src.DeepSEM_cell_type_non_specific_GRN_model import non_celltype_GRN_model
 from src.DeepSEM_cell_type_non_specific_GRN_benchmark import non_celltype_GRN_model as GRNbenchmark_model
 from src.DeepSEM_cell_type_non_specific_perturb import non_celltype_GRN_model_perturb as perturb_model
 from src.Mixture_of_experts import non_celltype_GRN_model_perturb as moe_model
+from src.Mixture_of_experts2 import non_celltype_GRN_model_perturb as moe_model2
 from src.test_loss import non_celltype_GRN_model_perturb as perturb_test_loss
 from src.DeepSEM_cell_type_specific_GRN_model import celltype_GRN_model
 from src.DeepSEM_cell_type_test_non_specific_GRN_model import test_non_celltype_GRN_model
@@ -143,6 +144,37 @@ elif opt.task == 'moe':
         print (opt)
 
     model = moe_model(opt)
+    model.train_model()
+
+elif opt.task == 'moe2':
+    if opt.setting == 'default':
+        opt.beta = 1
+        opt.alpha = 1
+        opt.K1 = 1
+        opt.K2 = 2
+        opt.n_hidden = 128
+        opt.gamma = 0.95
+        opt.lr = 0.001
+        opt.lr_step_size = 0.99
+        opt.batch_size = 64
+        opt.eta = 1
+    elif opt.setting == 'best_params':
+        opt.batch_size = 32
+        opt.n_hidden = 256
+        opt.K = 1
+        opt.lr = 0.0006714789263699747
+        opt.lr_step_size = 4.236225080966285
+        opt.gamma = 0.9951892222031806
+        opt.n_epochs = 200
+        opt.K1 = 1
+        opt.K2 = 2
+        opt.alpha = 92.47877401136095
+        opt.beta = 0.26492246281184506
+        opt.eta = 1.20271130496875
+
+        print (opt)
+
+    model = moe_model2(opt)
     model.train_model()
 elif opt.task == 'test_loss':
     if opt.setting == 'default':

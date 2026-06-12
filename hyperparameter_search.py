@@ -59,11 +59,11 @@ def benchmark(estimated_network, true_network):
 
 def load_data(config):
         # Read the expression data from csv file
-        gene_labels = [] 
+        gene_labels = []
         data = []
         with open(args.data) as f:
             lines = f.readlines()
-            
+
             for i in range(1, len(lines)):
                 line = lines[i].split(',')
 
@@ -150,8 +150,8 @@ def infer_grn(config):
             print('epoch:', epoch, 'loss:',
                     np.mean(loss_all), 'mse_loss:', np.mean(mse_rec), 'kl_loss:', np.mean(loss_kl), 'sparse_loss:',
                     np.mean(loss_sparse))
-                
-     
+
+
         # Calculate the auroc and aupr
         stats = benchmark(pd.DataFrame(vae.adj_A.detach().cpu().numpy()), true_grn)
         with tempfile.TemporaryDirectory() as temp_checkpoint_dir:
@@ -190,6 +190,7 @@ def main():
         #'K2': 2,
         #'alpha': tune.sample_from(lambda _: int(np.random.random()* 20 + 90)),
         #'beta': 1
+
         })
 
     scheduler = ASHAScheduler(

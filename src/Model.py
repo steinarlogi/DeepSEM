@@ -194,7 +194,7 @@ class VAE_EAD(nn.Module):
         adj_normalized = Tensor(np.eye(adj.shape[0])) - (adj.transpose(0, 1))
         return adj_normalized
 
-    def forward(self, x, dropout_mask, temperature=1.0, opt=None, ):
+    def forward(self, x, dropout_mask, temperature=1.0, opt=None):
         x_ori = x
         x = x.view(x.size(0), -1, 1) # Same as torch.unsqueeze(2)
         mask = Variable(torch.from_numpy(np.ones(self.n_gene) - np.eye(self.n_gene)).float(), requires_grad=False).cuda()
@@ -213,4 +213,3 @@ class VAE_EAD(nn.Module):
         loss_cat = (-self.losses.entropy(output['logits'], output['prob_cat']) - np.log(0.1)) * opt.beta
         loss = loss_rec + loss_gauss + loss_cat
         return loss, loss_rec, loss_gauss, loss_cat, dec, y, output['mean']
-    

@@ -44,7 +44,7 @@ class LossFunctions:
     def entropy(self, logits, targets):
         log_q = F.log_softmax(logits, dim=-1)
         return -torch.mean(torch.sum(targets * log_q, dim=-1))
-    
+
     def perturb_loss(self, P, A, Y):
         loss = 0.5 + torch.norm(P - torch.matmul(Y.squeeze(2), A))
         return loss.mean()
@@ -198,7 +198,7 @@ class VAE_EAD(nn.Module):
         adj_normalized = Tensor(np.eye(adj.shape[0])) - (adj.transpose(0, 1))
         return adj_normalized
 
-    def forward(self, x, p, dropout_mask, temperature=1.0, opt=None, ):
+    def forward(self, x, p, dropout_mask, temperature=1.0, opt=None):
         x_ori = x
         x = x.view(x.size(0), -1, 1) # Same as torch.unsqueeze(2)
         mask = Variable(torch.from_numpy(np.ones(self.n_gene) - np.eye(self.n_gene)).float(), requires_grad=False).cuda()
@@ -218,4 +218,3 @@ class VAE_EAD(nn.Module):
         loss_perturb = self.losses.perturb_loss(p, self.adj_A, x) * opt.eta
         loss = loss_rec + loss_gauss + loss_perturb #+ loss_cat
         return loss, loss_rec, loss_gauss, loss_cat, loss_perturb, dec, y, output['mean']
-    
